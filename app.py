@@ -71,6 +71,13 @@ ALLOWED_ORIGINS = [
         "http://localhost:3000,http://127.0.0.1:5500,http://localhost:8888"
     ).split(",") if o.strip()
 ]
+# TEMP DEBUG: force-add the known Netlify origin so we can confirm CORS
+# is the actual problem, independent of whatever is (or isn't) in the
+# Vercel env var right now. Remove this line once ALLOWED_ORIGINS is
+# confirmed correct on Vercel.
+ALLOWED_ORIGINS.append("https://pyf-admin-panel.netlify.app")
+print("CORS allowed origins:", ALLOWED_ORIGINS)  # shows up in Vercel function logs
+
 CORS(app, supports_credentials=True, origins=ALLOWED_ORIGINS, allow_headers=["Content-Type"])
 
 # Pull the Mongo URI from Vercel environment variables, fallback for local testing
